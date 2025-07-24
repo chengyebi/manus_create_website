@@ -1,141 +1,143 @@
-# Personal Deposit Management Web System
+# 个人存款管理 Web 系统
 
-This is a full-stack web application that allows users to register, log in, manage deposits and withdrawals, view account balances, and track transaction history. It consists of a Node.js backend and a simple HTML/CSS/JavaScript frontend.
+这是一个全栈 Web 应用，用户可以注册、登录，管理存款和取款，查看账户余额并跟踪交易历史。项目包含 Node.js 后端和简单的 HTML/CSS/JavaScript 前端。
 
-## Features
+## 功能
 
-- User registration and login with session-based authentication.
-- Secure API endpoints for account information, deposits, withdrawals, and transaction history.
-- Frontend UI to register and log in, deposit or withdraw funds, and view account balance and transaction history.
-- Data persistence using a JSON file (`backend/data.json`) for demonstration purposes.
+- 用户注册与登录（基于 session 的认证）。
+- 提供安全的 API 接口用于查询账户信息、存款、取款和查看交易历史。
+- 前端界面允许用户注册、登录、存取款并查看账户余额和交易明细。
+- 使用 JSON 文件（`backend/data.json`）存储数据，适合演示用途。
 
-## Project Structure
+## 项目结构
 
 ```
 /backend
-  data.json    # Stores users and sessions data.
-  server.js    # Node.js server providing RESTful API endpoints.
+  data.json    # 存储用户和会话数据
+  server.js    # 提供 RESTful API 的 Node.js 服务器
 
 /frontend
-  index.html   # Main page with forms and UI for registration, login, and account management.
-  script.js    # Client-side logic interacting with backend APIs.
-  styles.css   # Stylesheet for the frontend UI.
+  index.html   # 注册、登录和账户管理页面
+  script.js    # 与后端 API 通讯的客户端脚本
+  styles.css   # 前端界面样式表
 
-.gitignore       # Specifies files to ignore in Git.
-README.md        # Project documentation (this file).
+.gitignore       # Git 忽略文件列表
+README.md        # 项目说明（本文件）
 ```
 
-## Getting Started
+## 快速开始
 
-1. **Install Dependencies**:
-   ```
+1. **安装依赖**：
+
+   ```bash
    cd backend
    npm install
    ```
 
-2. **Start the Server**:
-   ```
+2. **启动服务器**：
+
+   ```bash
    node server.js
    ```
-   The server will run on `http://localhost:3000`.
+   服务器默认运行在 `http://localhost:3000`。
 
-3. **Open Frontend**:
-   Simply open `frontend/index.html` in your browser (e.g., double-click the file).
+3. **打开前端**：
 
-## API Endpoints
+   直接在浏览器中打开 `frontend/index.html` 即可使用。
+
+## API 端点
 
 ### POST `/api/register`
 
-Registers a new user.
+注册新用户。
 
-Request Body (JSON):
+请求体（JSON）：
 ```json
-{ "username": "<string>", "password": "<string>" }
+{ "username": "<用户名>", "password": "<密码>" }
 ```
 
-Responses:
-- **201 Created** – Registration successful.
-- **400 Bad Request** – Missing fields or username already exists.
+响应：
+- **201 Created** – 注册成功。
+- **400 Bad Request** – 缺少字段或用户名已存在。
 
 ### POST `/api/login`
 
-Authenticates a user and returns a token.
+用户登录，返回令牌。
 
-Request Body (JSON):
+请求体（JSON）：
 ```json
-{ "username": "<string>", "password": "<string>" }
+{ "username": "<用户名>", "password": "<密码>" }
 ```
 
-Responses:
-- **200 OK** – { "token": "<string>" }
-- **401 Unauthorized** – Invalid credentials.
+响应：
+- **200 OK** – { "token": "<令牌>" }
+- **401 Unauthorized** – 用户名或密码错误。
 
 ### GET `/api/account`
 
-Returns the balance and username of the authenticated user.
+返回经过认证用户的账户余额和用户名。
 
-Headers:
+请求头：
 ```
-Authorization: Bearer <token>
+Authorization: Bearer <令牌>
 ```
 
-Responses:
-- **200 OK** – { "balance": <number>, "username": "<string>" }
-- **401 Unauthorized** – Invalid or missing token.
+响应：
+- **200 OK** – { "balance": <余额>, "username": "<用户名>" }
+- **401 Unauthorized** – 缺少或无效令牌。
 
 ### POST `/api/deposit`
 
-Deposits an amount into the authenticated user’s account.
+为经过认证的用户账户存入金额。
 
-Headers:
+请求头：
 ```
-Authorization: Bearer <token>
+Authorization: Bearer <令牌>
 ```
 
-Request Body (JSON):
+请求体（JSON）：
 ```json
-{ "amount": <number> }
+{ "amount": <金额> }
 ```
 
-Responses:
-- **200 OK** – { "balance": <number> }
-- **400 Bad Request** – Amount missing or invalid.
-- **401 Unauthorized** – Invalid or missing token.
+响应：
+- **200 OK** – { "balance": <余额> }
+- **400 Bad Request** – 金额为空或无效。
+- **401 Unauthorized** – 缺少或无效令牌。
 
 ### POST `/api/withdraw`
 
-Withdraws an amount from the authenticated user’s account.
+为经过认证的用户账户取出金额。
 
-Headers:
+请求头：
 ```
-Authorization: Bearer <token>
+Authorization: Bearer <令牌>
 ```
 
-Request Body (JSON):
+请求体（JSON）：
 ```json
-{ "amount": <number> }
+{ "amount": <金额> }
 ```
 
-Responses:
-- **200 OK** – { "balance": <number> }
-- **400 Bad Request** – Amount missing or invalid.
-- **400 Bad Request** – Insufficient funds.
-- **401 Unauthorized** – Invalid or missing token.
+响应：
+- **200 OK** – { "balance": <余额> }
+- **400 Bad Request** – 金额为空或无效。
+- **400 Bad Request** – 余额不足。
+- **401 Unauthorized** – 缺少或无效令牌。
 
 ### GET `/api/transactions`
 
-Returns the transaction history for the authenticated user.
+返回经过认证用户的交易历史。
 
-Headers:
+请求头：
 ```
-Authorization: Bearer <token>
+Authorization: Bearer <令牌>
 ```
 
-Responses:
-- **200 OK** – [ { "type": "deposit/withdrawal", "amount": <number>, "timestamp": "<string>" }, ... ]
-- **401 Unauthorized** – Invalid or missing token.
+响应：
+- **200 OK** – [ { "type": "deposit/withdrawal", "amount": <金额>, "timestamp": "<时间戳>" }, ... ]
+- **401 Unauthorized** – 缺少或无效令牌。
 
-## License
+## 许可
 
-This project is licensed under the MIT License.
-
+本项目采用 MIT 许可协议，你可以自由修改和使用，风险自负。
