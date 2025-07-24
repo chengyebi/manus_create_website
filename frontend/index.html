@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personal Deposit Manager</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Personal Deposit Management</h1>
+
+    <div id="auth-section">
+      <h2>Register</h2>
+      <form id="register-form">
+        <label for="register-username">Username</label>
+        <input type="text" id="register-username" required>
+        <label for="register-password">Password</label>
+        <input type="password" id="register-password" required>
+        <button type="submit">Register</button>
+      </form>
+      <p id="register-message" class="message"></p>
+
+      <h2>Login</h2>
+      <form id="login-form">
+        <label for="login-username">Username</label>
+        <input type="text" id="login-username" required>
+        <label for="login-password">Password</label>
+        <input type="password" id="login-password" required>
+        <button type="submit">Login</button>
+      </form>
+      <p id="login-message" class="message"></p>
+    </div>
+
+    <div id="account-section" class="hidden">
+      <h2>Welcome, <span id="user-name"></span></h2>
+      <p>Current Balance: $<span id="balance">0</span></p>
+      <div class="actions">
+        <form id="deposit-form">
+          <h3>Deposit</h3>
+          <input type="number" id="deposit-amount" min="0.01" step="0.01" placeholder="Amount" required>
+          <button type="submit">Deposit</button>
+        </form>
+        <form id="withdraw-form">
+          <h3>Withdraw</h3>
+          <input type="number" id="withdraw-amount" min="0.01" step="0.01" placeholder="Amount" required>
+          <button type="submit">Withdraw</button>
+        </form>
+      </div>
+      <p id="transaction-message" class="message"></p>
+      <h3>Transaction History</h3>
+      <table id="transactions-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+      <button id="logout-button">Logout</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
